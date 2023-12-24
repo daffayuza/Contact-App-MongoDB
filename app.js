@@ -10,8 +10,9 @@ const flash = require('connect-flash');
 require('./utils/db');
 const Contact = require('./model/contact');
 
+require('dotenv').config();
+
 const app = express();
-const port = 3000;
 
 // Setup Method Override
 app.use(methodOverride('_method'));
@@ -191,6 +192,6 @@ app.get('/contact/:nama', async (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Mongo Contact App || listening at http://localhost:${port}`);
+app.listen(process.env.APP_PORT, () => {
+  console.log(`Mongo Contact App || listening at http://localhost:${process.env.APP_PORT}`);
 });
