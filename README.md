@@ -14,7 +14,7 @@ npm install
 npm run start
 ```
 
-# Resources 
+# Tech Stack
 * ExpressJs
 * Bootstrap
 * EJS
