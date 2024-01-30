@@ -101,7 +101,7 @@ app.post(
     check('email', 'Email tidak valid!').isEmail(),
     check('nohp', 'No HP tidak valid!').isMobilePhone('id-ID'),
   ],
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.render('add-contact', {
@@ -110,14 +110,21 @@ app.post(
         errors: errors.array(),
       });
     } else {
-      Contact.insertMany(req.body, (error, result) => {
+      try {
+        const result = await Contact.create(req.body);
         // kirimkan flash message
         req.flash('msg', 'Data contact berhasil ditambahkan!');
         res.redirect('/contact');
-      });
+      } catch (error) {
+        // Tangani kesalahan jika terjadi saat menyisipkan data
+        console.error(error);
+        // Tambahkan log atau tindakan lain sesuai kebutuhan
+        res.status(500).send('Internal Server Error');
+      }
     }
   }
 );
+
 
 // Proses Delete Contact
 app.delete('/contact', (req, res) => {
